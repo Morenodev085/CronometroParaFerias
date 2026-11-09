@@ -1,0 +1,225 @@
+@import "tailwindcss";
+
+:root {
+  font-family: system-ui, sans-serif;
+  color: #b0082b;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+
+.site {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: #f4a6bb;
+  isolation: isolate;
+  overflow: clip;
+}
+
+.countdown {
+  position: relative;
+  width: min(100%, 580px);
+  padding: clamp(24px, 5vw, 40px);
+  border-radius: 20px;
+  background: #ffd0df;
+  text-align: center;
+  box-shadow: 0 8px 32px #0002;
+}
+
+h1 { margin: 0 0 24px; font-size: clamp(24px, 5vw, 36px); }
+label { display: block; margin-bottom: 10px; }
+input {
+  max-width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #aab7c4;
+  border-radius: 8px;
+  background: white;
+  color: inherit;
+  font: inherit;
+}
+input:focus-visible { outline: 3px solid #216a8b; outline-offset: 3px; }
+.timer { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 28px; contain: layout; }
+.unit { display: grid; gap: 4px; min-width: 0; }
+.unit span { font-size: clamp(11px, 2.5vw, 14px); }
+p { margin: 24px 0 0; font-size: 14px; color: #a0092b; }
+
+.site { position: relative; padding-bottom: 160px; }
+.credit {
+  position: absolute;
+  bottom: max(20px, env(safe-area-inset-bottom));
+  left: max(20px, env(safe-area-inset-left));
+  width: 116px;
+  height: 116px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #fff3e8;
+  overflow: hidden;
+  contain: layout paint;
+  color: #b0082b;
+  box-shadow: 0 4px 20px #58001620;
+}
+.credit-ring {
+  position: absolute;
+  inset: 0;
+  animation: credit-spin 20s linear infinite;
+}
+.credit-ring span {
+  position: absolute;
+  top: 9px;
+  left: calc(50% - 6px);
+  width: 12px;
+  height: 49px;
+  transform-origin: center bottom;
+  text-align: center;
+  white-space: pre;
+  font-size: 12px;
+  font-weight: 600;
+}
+.credit-star { font-size: 36px; line-height: 1; }
+@keyframes credit-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .credit-ring { animation: none; }
+}
+
+.bubble-background {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background: linear-gradient(135deg, #ffd0df, #ef7598 50%, #b0082b);
+}
+.bubble-clouds { position: absolute; inset: -60px; filter: blur(40px); }
+.bubble {
+  position: absolute;
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, var(--bubble-color) 0%, transparent 65%);
+  animation: bubble-drift 30s ease-in-out infinite alternate;
+}
+.bubble-1 { --bubble-color: #ffffffb3; top: -20%; left: -15%; }
+.bubble-2 {
+  --bubble-color: #ffffff80;
+  top: 15%; left: 40%;
+  transform-origin: 20% 60%;
+  animation: bubble-orbit 24s linear infinite;
+}
+.bubble-3 {
+  --bubble-color: #ffffff99;
+  top: 40%; left: -20%;
+  transform-origin: 70% 30%;
+  animation: bubble-orbit 38s linear infinite reverse;
+}
+.bubble-4 {
+  --bubble-color: #ffffff66;
+  top: -25%; left: 30%;
+  animation-duration: 36s;
+  animation-delay: -18s;
+}
+.bubble-5 {
+  --bubble-color: #ffffffb3;
+  top: 45%; left: 35%;
+  animation-duration: 26s;
+  animation-delay: -10s;
+}
+@keyframes bubble-drift {
+  from { transform: translate(-8%, -8%) scale(.9); }
+  to { transform: translate(12%, 12%) scale(1.15); }
+}
+@keyframes bubble-orbit {
+  to { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bubble { animation: none; }
+}
+
+@media (max-width: 480px) {
+  .site {
+    min-height: 100svh;
+    padding: 24px 14px 136px;
+  }
+  .countdown {
+    padding: 28px 16px;
+    border-radius: 16px;
+  }
+  .countdown h1 {
+    margin-bottom: 16px;
+    font-size: clamp(23px, 6vw, 28px);
+    line-height: 1.2;
+  }
+  .countdown p {
+    max-width: 30ch;
+    margin: 0 auto;
+    font-size: 14px;
+    line-height: 1.6;
+    text-wrap: pretty;
+  }
+  .timer { margin-top: 24px; gap: 6px; }
+  .unit { gap: 8px; }
+  .unit span { font-size: 11px; line-height: 1.4; }
+  .credit {
+    width: 96px;
+    height: 96px;
+    bottom: max(16px, env(safe-area-inset-bottom));
+    left: max(14px, env(safe-area-inset-left));
+  }
+  .credit-ring span {
+    top: 8px;
+    height: 40px;
+    font-size: 10px;
+  }
+  .credit-star { font-size: 28px; }
+}
+
+.flip-digits {
+  display: flex;
+  justify-content: center;
+  gap: 3px;
+  height: 64px;
+}
+/* Size the installed 8StarLabs digits without changing the timer's columns. */
+.clock-digit {
+  background: #f4a6bb;
+  color: #b0082b;
+  font-family: ui-monospace, 'Courier New', monospace;
+  font-variant-numeric: tabular-nums;
+}
+.clock-digit.vacation-digit {
+  flex: 0 1 38px;
+  width: 38px;
+  min-width: 0;
+  height: 100%;
+  font-size: 44px;
+  font-weight: 600;
+  line-height: 1;
+}
+.clock-digit span { font: inherit; }
+
+.animate-flip-top { background: #fff; animation: flip-top-anim .6s ease-in forwards; }
+.animate-flip-bottom { background: #fff; animation: flip-bottom-anim .6s ease-out forwards; }
+@keyframes flip-top-anim {
+  0% { transform: rotateX(0deg); z-index: 30; }
+  50%, 100% { transform: rotateX(-90deg); z-index: 10; }
+}
+@keyframes flip-bottom-anim {
+  0%, 50% { transform: rotateX(90deg); z-index: 10; }
+  100% { transform: rotateX(0deg); z-index: 30; }
+}
+@media (max-width: 480px) {
+  .flip-digits { height: 46px; gap: 2px; }
+  .clock-digit.vacation-digit {
+    flex-basis: 28px;
+    width: 28px;
+    font-size: clamp(23px, 6.8vw, 30px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-flip-top, .animate-flip-bottom { animation-duration: 1ms; }
+}
