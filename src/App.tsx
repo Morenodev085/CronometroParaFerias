@@ -3,7 +3,7 @@ import { SpinningCredit } from './components/spinning-credit'
 import { BubbleBackground } from './components/bubble-background'
 import { FlipUnit } from './components/8starlabs-ui/flip-clock'
 
-const vacationDate = '2026-12-11T17:40:00'
+const vacationDate = '2026-12-17T17:40:00'
 
 function remainingSeconds() {
   const deadline = new Date(vacationDate).getTime()
